@@ -1,26 +1,37 @@
-import React from 'react'
+import { useState } from "react";
 
-
-
-const InputForm = () => {
-  
-  return (
-    <div className="input-form">
-      <input
-        className="input-task"
-        placeholder="Enter the todo..."
-        type="text"
-        maxLength={40}
-        
-      />
-      <button
-        className="btn-hover btn-color"
-        type="submit"
-      >
-        Add New Todo
-      </button>
-    </div>
-  )
+interface IInputForm {
+  addTodo: AddFn;
 }
+const InputForm: React.FC<IInputForm> = ({ addTodo }) => {
+  const [task, setTask] = useState("");
+  const handleClick = () => {
+    addTodo(task);
+    setTask("");
+  };
+  return (
+    <form>
+      <div className="input-form">
+        <input
+          className="input-task"
+          placeholder="Enter the todo..."
+          type="text"
+          maxLength={40}
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          required
+        />
+        <button
+          className="btn-hover btn-color"
+          type="submit"
+          onClick={handleClick}
+          disabled={!task}
+        >
+          Add New Todo
+        </button>
+      </div>
+    </form>
+  );
+};
 
-export default InputForm
+export default InputForm;
